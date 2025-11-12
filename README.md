@@ -1,3 +1,13 @@
+# Introduction
+This repository contains the supplementary material and replication package for our empirical study on architectural 
+practices and guidelines in Edge AI–based systems. It provides the complete research artifacts, including datasets, 
+scripts, and analytical workflows used to collect, process, and analyze open-source EdgeAI repositories. The goal of 
+this material is to ensure transparency, reproducibility, and reusability of our findings. Researchers can use the 
+included tools to replicate the study’s pipeline—from dataset acquisition to data treatment and thematic analysis—or 
+adapt them for related investigations in software architecture, AI engineering, and edge computing. Together, these 
+resources support the broader research community in advancing the understanding and engineering of distributed, 
+intelligent systems operating across the cloud–edge continuum.
+
 # Getting Started
 
 Follow this step-by-step guide to set up your environment, install dependencies with **Poetry**, and run the 
