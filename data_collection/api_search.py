@@ -1,120 +1,164 @@
-# -*- coding: utf-8 -*-
-"""
-GitHub repository miner for the EdgeAI replication dataset.
-- English logs/messages
-- Robust pagination & de-duplication
-- Rate-limit/backoff handling
-- CSV persistence with timestamped filename
-"""
-
+import requests
 import csv
-import logging
 import os
 import time
-from pathlib import Path
-from typing import List, Dict, Optional, Tuple
+import logging
+from typing import List, Dict, Optional
 
-import requests
+from config import NUM_COMMITS, PER_PAGE, MAX_RESP, headers, last_year_date
+from utils import format_datetime
 
-# --- Project config ---
-# Prefer pulling TOKEN and last_year_date from your config module.
-# If you already centralize "headers" there, that's fine; we build ours here.
-try:
-    from .config import NUM_COMMITS, PER_PAGE, MAX_RESP, TOKEN, last_year_date
-except Exception as exc:  # Fallbacks / safety defaults if needed
-    logging.warning("Falling back to default constants: %s", exc)
-    NUM_COMMITS = 100
-    PER_PAGE = 50
-    MAX_RESP = 400
-    TOKEN = os.getenv("GITHUB_TOKEN", "")
-    # last_year_date like '2024-01-01' or dynamic (you can compute it in config)
-    last_year_date = os.getenv("GITHUB_LAST_YEAR_DATE", "2024-01-01")
-
-# --- Logging setup ---
-LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
-logging.basicConfig(
-    level=getattr(logging, LOG_LEVEL, logging.INFO),
-    format="%(asctime)s | %(levelname)s | %(name)s:%(lineno)d - %(message)s",
-)
-logger = logging.getLogger("edgeai.repo_miner")
-
-# --- HTTP client config ---
-BASE_URL = "https://api.github.com"
-HEADERS = {
-    "Accept": "application/vnd.github.v3+json",
-}
-if TOKEN:
-    print(TOKEN)
-    # Prefer the modern "Bearer" form (the legacy "token" form still works but is discouraged)
-    HEADERS["Authorization"] = f"Bearer {TOKEN}"
-
-# --- FS paths ---
-ROOT = Path(os.getcwd()).resolve()
-OUTPUT_DIR = ROOT / "dataset" / "raw_data2"
-OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-
-# --- Utils ---
-def format_datetime() -> str:
-    """Return a compact timestamp for filenames, e.g., 2025-11-12_120501."""
-    import datetime as _dt
-    return _dt.datetime.now().strftime("%Y-%m-%d_%H%M%S")
+root = os.getcwd()
+logger = logging.getLogger(__name__)
 
 
-def github_get(
-    url: str,
-    params: Optional[Dict] = None,
-    max_retries: int = 5,
-    backoff_base: float = 2.0,
-    timeout: int = 30,
-) -> requests.Response:
+class HandleCsv:
     """
-    GitHub GET with basic rate-limit & transient error handling.
-    - Retries on 429/403 (rate limit) and 5xx
-    - Exponential backoff
+    Helper class to handle CSV generation for mined GitHub repositories.
     """
-    attempt = 0
-    while True:
-        r = requests.get(url, headers=HEADERS, params=params or {}, timeout=timeout)
 
-        # Success fast-path
-        if 200 <= r.status_code < 300:
-            remaining = r.headers.get("X-RateLimit-Remaining")
-            if remaining is not None:
-                logger.debug("Rate limit remaining: %s", remaining)
-            return r
+    def __init__(self, repos, term: str, prefix: str = "") -> None:
+        """
+        Initialize the CSV handler.
 
-        # Handle rate limit (403 with "rate limit exceeded") or explicit 429
-        if r.status_code in (403, 429):
-            reset = r.headers.get("X-RateLimit-Reset")
-            if reset and r.status_code == 403 and "rate limit" in r.text.lower():
-                # Sleep until reset if possible
-                try:
-                    reset_epoch = int(reset)
-                    wait_s = max(0, reset_epoch - int(time.time()) + 2)
-                    logger.warning("Rate limit hit. Sleeping until reset in ~%ss", wait_s)
-                    time.sleep(wait_s)
-                    attempt += 1
-                    if attempt > max_retries:
-                        r.raise_for_status()
-                    continue
-                except Exception:
-                    # Fallback to backoff
-                    pass
+        Parameters
+        ----------
+        repos : list
+            List of repository objects (as returned by the GitHub Search API).
+        term : str
+            Search term used to retrieve the repositories.
+        prefix : str, optional
+            Prefix to be added to the output CSV filename.
+        """
+        self.term = term
+        self.csv_file = repos
+        self.prefix = prefix
+        self.repos = repos
+        self.output_path: Optional[str] = None
 
-        # Retry on 5xx or fall back for other transient errors
-        if r.status_code >= 500 or r.status_code in (403, 429):
-            if attempt >= max_retries:
-                logger.error("Max retries exceeded for %s (status=%s, body=%s)", url, r.status_code, r.text[:200])
-                r.raise_for_status()
-            sleep_s = backoff_base ** attempt
-            logger.warning("Transient error %s. Retrying in %.1fs ...", r.status_code, sleep_s)
-            time.sleep(sleep_s)
-            attempt += 1
-            continue
+    def handling_to_save(self) -> None:
+        """
+        Prepare output filename and trigger CSV export for the current repositories.
+        """
+        filename = f"{self.prefix}{self.term}_repos_{format_datetime()}.csv"
+        self.output_path = os.path.join(root, "dataset/raw_data2", filename)
 
-        # Non-retryable client errors
-        logger.error("GitHub request failed: %s - %s", r.status_code, r.text[:200])
-        r.raise_for_status()
+        logger.info("Saving repository data to CSV: %s", self.output_path)
+        self.save_to_csv()
+        logger.info("Data successfully saved to %s", self.output_path)
+
+    def save_to_csv(self) -> None:
+        """
+        Save repositories data to a CSV file, including commits and collaborators information.
+
+        Notes
+        -----
+        - Uses `self.repos` as the source of data.
+        - Requires `self.output_path` to be set before calling this method.
+        """
+        if not self.repos:
+            logger.warning("No repository data to save. CSV file will not be created.")
+            return
+
+        if not self.output_path:
+            logger.error("Output path is not set. Aborting CSV save operation.")
+            return
+
+        with open(self.output_path, mode="w", newline="", encoding="utf-8") as file:
+            writer = csv.writer(file)
+            writer.writerow(
+                [
+                    "name",
+                    "full_name",
+                    "URL",
+                    "desc.",
+                    "total_commits",
+                    "last_commit",
+                    "commits_2024",
+                    "stars",
+                    "fork",
+                    "forks",
+                    "lang",
+                    "size",
+                    "score",
+                    "template",
+                    "archived",
+                    "disabled",
+                    "contributors_url",
+                    "collaborators_url",
+                    "collaborators",
+                    "search_term",
+                ]
+            )
+
+            for repo in self.repos:
+                owner = repo["owner"]["login"]
+                name = repo["name"]
+                full_name = repo["full_name"]
+                total_commits = count_total_commits(owner, name)
+                last_commit = repo["pushed_at"]
+                commits_2024 = count_commits_2024(owner, name)
+                fork = repo["fork"]
+                forks = repo["forks"]
+                size = repo["size"]
+                score = repo["score"]
+                archived = repo["archived"]
+                disabled = repo["disabled"]
+                contributors_url = repo["contributors_url"]
+                collaborators_url = repo["collaborators_url"]
+                collaborators_count = get_collaborators_count(owner, name)
+
+                writer.writerow(
+                    [
+                        name,
+                        full_name,
+                        repo["html_url"],
+                        repo["description"],
+                        total_commits,
+                        last_commit,
+                        commits_2024,
+                        repo["stargazers_count"],
+                        fork,
+                        forks,
+                        repo["language"],
+                        size,
+                        score,
+                        repo["is_template"],
+                        archived,
+                        disabled,
+                        contributors_url,
+                        collaborators_url,
+                        collaborators_count,
+                        self.term,
+                    ]
+                )
+
+    def load_repos_from_csv(self, file_path: str) -> List[Dict]:
+        """
+        Load repositories from an existing CSV file.
+
+        The `search_term` column is converted to a list, assuming comma-separated values.
+
+        Parameters
+        ----------
+        file_path : str
+            Path to the CSV file containing repository data.
+
+        Returns
+        -------
+        list of dict
+            List of repositories loaded from the CSV file.
+        """
+        repos: List[Dict] = []
+        with open(file_path, mode="r", encoding="utf-8") as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                # Convert search_term column to a list, assuming comma-separated values
+                row["search_term"] = (
+                    row.get("search_term", "").split(",") if row.get("search_term") else []
+                )
+                repos.append(row)
+        return repos
 
 
 def search_github_repos(
@@ -122,210 +166,260 @@ def search_github_repos(
     sort: str = "stars",
     order: str = "desc",
     per_page: int = PER_PAGE,
-) -> List[Dict]:
+) -> Optional[List[Dict]]:
     """
-    Search repositories with de-duplication and page-through logic until MAX_RESP.
+    Search repositories on GitHub using the REST API, ensuring unique results.
+
+    Parameters
+    ----------
+    search_term : str
+        Search term (e.g., 'EdgeAI').
+    sort : str, optional
+        Sorting criterion ('stars', 'forks', etc.). Default is 'stars'.
+    order : str, optional
+        Sorting order: 'asc' for ascending, 'desc' for descending. Default is 'desc'.
+    per_page : int, optional
+        Number of results per page (max: 100). Default is `PER_PAGE`.
+
+    Returns
+    -------
+    list of dict or None
+        List of repository objects (at most `MAX_RESP`), or None in case of error.
     """
-    url = f"{BASE_URL}/search/repositories"
+    url = "https://api.github.com/search/repositories"
     query = f"{search_term} in:name,description,topics, pushed:>{last_year_date} stars:>10"
 
+    params = {
+        "q": query,
+        "sort": sort,
+        "order": order,
+        "per_page": per_page,
+    }
+
     all_repositories: List[Dict] = []
-    seen_ids = set()
+    seen_repos = set()
     page = 1
 
-    logger.info("Searching term '%s' ...", search_term)
+    logger.info("Starting GitHub search for term '%s'.", search_term)
 
     while len(all_repositories) < MAX_RESP:
-        params = {
-            "q": query,
-            "sort": sort,
-            "order": order,
-            "per_page": per_page,
-            "page": page,
-        }
-        r = github_get(url, params=params)
-        data = r.json()
-        items = data.get("items", []) or []
-
-        if not items:
-            logger.info("No more results (page=%s).", page)
+        params["page"] = page
+        try:
+            response = requests.get(url, headers=headers, params=params, timeout=10)
+        except requests.RequestException as exc:
+            logger.error("Request error while searching repositories: %s", exc)
             break
 
-        added = 0
-        for repo in items:
-            rid = repo.get("id")
-            if rid not in seen_ids:
-                seen_ids.add(rid)
+        if response.status_code != 200:
+            logger.error(
+                "Error while searching repositories: %s - %s",
+                response.status_code,
+                response.text,
+            )
+            break
+
+        data = response.json()
+        repositories = data.get("items", [])
+
+        if not repositories:
+            logger.info("No more repositories returned by the API (page %d).", page)
+            break
+
+        for repo in repositories:
+            repo_id = repo["id"]
+            if repo_id not in seen_repos:
+                seen_repos.add(repo_id)
                 all_repositories.append(repo)
-                added += 1
-                if len(all_repositories) >= MAX_RESP:
-                    break
 
         logger.info(
-            "Page %d fetched: %d items | %d added | total unique=%d",
-            page, len(items), added, len(all_repositories),
+            "Page %d loaded with %d repositories (%d unique accumulated).",
+            page,
+            len(repositories),
+            len(all_repositories),
         )
 
-        if len(items) < per_page:
-            logger.info("Reached last page (items < per_page).")
+        if len(repositories) < per_page:
+            logger.info("Last page reached at page %d.", page)
             break
 
         page += 1
-        time.sleep(3)  # be nice to the API
+        time.sleep(3)  # Avoid hitting API rate limits
 
-    return all_repositories[:MAX_RESP]
-
-
-def _count_commits_range(owner: str, repo_name: str, since: Optional[str], until: Optional[str]) -> int:
-    """
-    Count commits by paging through /commits with optional date range.
-    Note: REST does not expose a single-count endpoint; GraphQL could be used for faster totals.
-    """
-    commits_url = f"{BASE_URL}/repos/{owner}/{repo_name}/commits"
-    total = 0
-    page = 1
-
-    while True:
-        params = {"per_page": 100, "page": page}
-        if since:
-            params["since"] = since
-        if until:
-            params["until"] = until
-
-        r = github_get(commits_url, params=params)
-        commits = r.json() or []
-        batch = len(commits)
-        total += batch
-
-        if batch < 100:
-            break
-
-        page += 1
-
-    return total
+    limited_results = all_repositories[:MAX_RESP]
+    logger.info(
+        "Search for '%s' finished with %d unique repositories (limited to %d).",
+        search_term,
+        len(all_repositories),
+        len(limited_results),
+    )
+    return limited_results
 
 
 def count_total_commits(owner: str, repo_name: str) -> int:
-    """Total commits on the default branch (approximation via REST pagination)."""
-    try:
-        return _count_commits_range(owner, repo_name, since=None, until=None)
-    except Exception as exc:
-        logger.error("Failed to count commits for %s/%s: %s", owner, repo_name, exc)
-        return 0
+    """
+    Count the total number of commits in a GitHub repository.
+
+    Parameters
+    ----------
+    owner : str
+        Repository owner (GitHub username or organization).
+    repo_name : str
+        Repository name.
+
+    Returns
+    -------
+    int
+        Total number of commits in the repository.
+    """
+    commits_url = f"https://api.github.com/repos/{owner}/{repo_name}/commits"
+    params = {"per_page": 100}
+    total_commits = 0
+    page = 1
+
+    while True:
+        try:
+            response = requests.get(
+                commits_url, headers=headers, params={**params, "page": page}
+            )
+        except requests.RequestException as exc:
+            logger.error(
+                "Request error while fetching commits for %s: %s", repo_name, exc
+            )
+            break
+
+        if response.status_code == 200:
+            commits = response.json()
+            total_commits += len(commits)
+            if len(commits) < NUM_COMMITS:
+                break
+            page += 1
+        else:
+            logger.error(
+                "Error while fetching commits for %s: %s - %s",
+                repo_name,
+                response.status_code,
+                response.text,
+            )
+            break
+
+    logger.debug("Total commits for %s/%s: %d", owner, repo_name, total_commits)
+    return total_commits
 
 
 def count_commits_2024(owner: str, repo_name: str) -> int:
-    """Commits within 2024 (inclusive)."""
+    """
+    Count the number of commits in the year 2024 for a GitHub repository.
+
+    Parameters
+    ----------
+    owner : str
+        Repository owner (GitHub username or organization).
+    repo_name : str
+        Repository name.
+
+    Returns
+    -------
+    int
+        Number of commits in 2024.
+    """
+    commits_url = f"https://api.github.com/repos/{owner}/{repo_name}/commits"
+    params = {
+        "since": "2024-01-01T00:00:00Z",
+        "until": "2024-12-31T23:59:59Z",
+        "per_page": 100,
+    }
+    total_commits_2024 = 0
+    page = 1
+
+    while True:
+        try:
+            response = requests.get(
+                commits_url, headers=headers, params={**params, "page": page}
+            )
+        except requests.RequestException as exc:
+            logger.error(
+                "Request error while fetching 2024 commits for %s: %s", repo_name, exc
+            )
+            break
+
+        if response.status_code == 200:
+            commits = response.json()
+            total_commits_2024 += len(commits)
+            if len(commits) < NUM_COMMITS:
+                break
+            page += 1
+        else:
+            logger.error(
+                "Error while fetching 2024 commits for %s: %s - %s",
+                repo_name,
+                response.status_code,
+                response.text,
+            )
+            break
+
+    logger.debug(
+        "Total commits in 2024 for %s/%s: %d", owner, repo_name, total_commits_2024
+    )
+    return total_commits_2024
+
+
+def get_collaborators_count(owner: str, repo_name: str) -> int:
+    """
+    Count the number of collaborators (contributors) in a GitHub repository.
+
+    Parameters
+    ----------
+    owner : str
+        Repository owner (GitHub username or organization).
+    repo_name : str
+        Repository name.
+
+    Returns
+    -------
+    int
+        Number of collaborators (contributors), or 0 in case of error.
+    """
+    collaborators_url = (
+        f"https://api.github.com/repos/{owner}/{repo_name}/contributors"
+    )
+    params = {"per_page": 100}
+
     try:
-        return _count_commits_range(
-            owner, repo_name,
-            since="2024-01-01T00:00:00Z",
-            until="2024-12-31T23:59:59Z",
+        response = requests.get(collaborators_url, headers=headers, params=params)
+    except requests.RequestException as exc:
+        logger.error(
+            "Request error while fetching collaborators for %s: %s", repo_name, exc
         )
-    except Exception as exc:
-        logger.error("Failed to count 2024 commits for %s/%s: %s", owner, repo_name, exc)
         return 0
 
-
-def get_contributors_count(owner: str, repo_name: str) -> int:
-    """
-    Count 'contributors' (GitHub API /contributors). Note this is not 'collaborators' with permissions.
-    """
-    url = f"{BASE_URL}/repos/{owner}/{repo_name}/contributors"
-    try:
-        r = github_get(url, params={"per_page": 100})
-        data = r.json() or []
-        return len(data)
-    except Exception as exc:
-        logger.error("Failed to fetch contributors for %s/%s: %s", owner, repo_name, exc)
+    if response.status_code == 200:
+        collaborators = len(response.json())
+        logger.debug("Collaborators for %s/%s: %d", owner, repo_name, collaborators)
+        return collaborators
+    else:
+        logger.error(
+            "Error while fetching collaborators for %s: %s - %s",
+            repo_name,
+            response.status_code,
+            response.text,
+        )
         return 0
-
-
-class HandleCsv:
-    """
-    CSV handler for writing the selected repository fields into a timestamped file.
-    """
-
-    HEADER = [
-        "name", "full_name", "URL", "desc.", "total_commits", "last_commit", "commits_2024",
-        "stars", "fork", "forks", "lang", "size", "score", "template", "archived", "disabled",
-        "contributors_url", "collaborators_url", "contributors", "search_term",
-    ]
-
-    def __init__(self, repos: List[Dict], term: str, prefix: str = ""):
-        self.term = term
-        self.repos = repos or []
-        self.prefix = prefix
-        self.output_path: Optional[Path] = None
-
-    def handling_to_save(self) -> None:
-        """Create output path and trigger CSV writing."""
-        filename = f"{self.prefix}{self.term}_repos_{format_datetime()}.csv"
-        self.output_path = OUTPUT_DIR / filename
-        self.save_to_csv()
-        logger.info("Data saved to %s", self.output_path)
-
-    def save_to_csv(self) -> None:
-        """Write repository rows into CSV (one file per term run)."""
-        if not self.repos:
-            logger.warning("No data to persist for term '%s'.", self.term)
-            return
-
-        assert self.output_path is not None, "Output path must be set before saving."
-        with self.output_path.open("w", newline="", encoding="utf-8") as f:
-            writer = csv.writer(f)
-            writer.writerow(self.HEADER)
-
-            for repo in self.repos:
-                owner = repo["owner"]["login"]
-                name = repo["name"]
-                full_name = repo["full_name"]
-
-                total_commits = count_total_commits(owner, name)
-                last_commit = repo.get("pushed_at")
-                commits_2024 = count_commits_2024(owner, name)
-
-                writer.writerow([
-                    name,
-                    full_name,
-                    repo.get("html_url"),
-                    repo.get("description"),
-                    total_commits,
-                    last_commit,
-                    commits_2024,
-                    repo.get("stargazers_count"),
-                    repo.get("fork"),
-                    repo.get("forks"),
-                    repo.get("language"),
-                    repo.get("size"),
-                    repo.get("score"),
-                    repo.get("is_template"),
-                    repo.get("archived"),
-                    repo.get("disabled"),
-                    repo.get("contributors_url"),
-                    repo.get("collaborators_url"),
-                    get_contributors_count(owner, name),
-                    self.term,
-                ])
-
-    @staticmethod
-    def load_repos_from_csv(file_path: Path) -> List[Dict]:
-        """Utility reader if you need to reload previously saved repos."""
-        rows: List[Dict] = []
-        with Path(file_path).open("r", encoding="utf-8") as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                # 'search_term' is a single term in this file; keep as str for now
-                rows.append(row)
-        return rows
 
 
 def search_and_save_management(term: str) -> None:
-    """Run the search for a single term and persist its results."""
-    logger.info("Starting search for term: %s", term)
+    """
+    Perform GitHub search for a given term and save the results to a CSV file.
+
+    Parameters
+    ----------
+    term : str
+        Search term to be used in the GitHub Search API.
+    """
+    logger.info("Searching repositories for term '%s'...", term)
+
     repos = search_github_repos(term, per_page=PER_PAGE)
     if not repos:
-        logger.warning("No repositories found for '%s'.", term)
+        logger.warning("No repositories found for term '%s'.", term)
         return
 
     handler = HandleCsv(repos, term, prefix="RAW_")
@@ -333,21 +427,52 @@ def search_and_save_management(term: str) -> None:
 
 
 def main() -> None:
+    """
+    Entry point for the mining script.
+
+    Iterates over a predefined list of EdgeAI-related search terms, retrieves
+    repositories from GitHub, and stores the results as CSV files in
+    `dataset/raw_data`.
+    """
     search_terms = [
         "edge ai",
-        # "edge_ai", "edgeiot", "edge iot",
-        # "edge-tpu", "edgetpu", "edge tpu", "edge_tpu",
-        # "tiny-ml", "tinyml", "tiny ml", "tiny_ml",
-        # "edge-impulse", "edgeimpulse", "edge impulse", "edge_impulse",
-        # "edge-architecture", "edgearchitecture", "edge architecture", "edge_architecture",
-        # "edge-ai-architecture", "edgeaiarchitecture", "edge ai architecture", "edge_ai_architecture",
+        "edge_ai",
+        "edgeiot",
+        "edge iot",
+        "edge-tpu",
+        "edgetpu",
+        "edge tpu",
+        "edge_tpu",
+        "tiny-ml",
+        "tinyml",
+        "tiny ml",
+        "tiny_ml",
+        "edge-impulse",
+        "edgeimpulse",
+        "edge impulse",
+        "edge_impulse",
+        "edge-architecture",
+        "edgearchitecture",
+        "edge architecture",
+        "edge_architecture",
+        "edge-ai-architecture",
+        "edgeaiarchitecture",
+        "edge ai architecture",
+        "edge_ai_architecture",
     ]
+
+    logger.info("Starting GitHub mining for %d search terms.", len(search_terms))
+
     for term in search_terms:
         search_and_save_management(term)
-        # Small courtesy sleep to avoid tight loops across terms
-        time.sleep(2)
+
+    logger.info("GitHub mining process completed for all terms.")
 
 
 if __name__ == "__main__":
+    # Basic logging configuration for standalone execution.
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s | %(levelname)s | %(name)s: %(message)s",
+    )
     main()
-    logger.info("Process done.")
