@@ -31,7 +31,6 @@ Below we will document **each export file** individually.
 
 For every file, we will add a mini-section in the following format:
 
-[//]: # (```text)
 
 ### 2.1 20250914_theme_frequencies.csv
 
@@ -46,15 +45,9 @@ For every file, we will add a mini-section in the following format:
   This export represents the **final consolidated theme frequency table** used for descriptive statistics in the study.
 
 - **Usage:**  
-  Ideal for:  
-  - generating plots (bar charts, Pareto charts, heatmaps);  
-  - inspecting theme distribution for RQ1.x;  
-  - validating the representativeness of guideline families;  
-  - triangulating with the GitHub mining dataset and ISO/IEC mappings.  
-
+  
   Researchers replicating this study can recompute this table by regrouping codes → categories → themes following the same hierarchical structure documented in the coding scheme.
 
-[//]: # (```)
 
 ### 2.2 20250914_code_frequencies.csv
 
@@ -70,13 +63,7 @@ For every file, we will add a mini-section in the following format:
   The table includes both low-level codes and more abstract codes, depending on how the coding hierarchy was structured.
 
 - **Usage:**  
-  Useful for:  
-  - analyzing which concepts were most prominent in the qualitative dataset;  
-  - generating visualizations (e.g., bar charts, Zipf-like distributions, code clouds);  
-  - validating the consistency of the coding process;  
-  - supporting RQ1.x by quantifying architectural concerns, patterns, and EdgeAI practices extracted from repositories;  
-  - triangulating with ISO/IEC 25010 quality attribute mappings and guideline families.
-
+ 
   This export is essential for replicating the **open coding stage** and for reconstructing the prevalence of each architectural construct identified in the study.
 
 ### 2.3 20250914_code_coocurrrence.xlsx
@@ -97,14 +84,7 @@ For every file, we will add a mini-section in the following format:
   This dataset reflects **associations between architectural concerns** emerging from the repositories.
 
 - **Usage:**  
-  Suitable for:
-  - identifying clusters of related codes;
-  - discovering emerging architectural themes and guideline groups;
-  - calculating similarity metrics (e.g., Jaccard, cosine similarity);
-  - generating network graphs (nodes = codes; edges = co-occurrence strength);
-  - triangulating with the thematic analysis to validate families, categories, and guideline structures;
-  - supporting RQ1.x by revealing **which architectural concepts tend to appear together**.
-
+ 
   This export is particularly valuable for **data-driven theme formation** and validating the cohesion of guideline families.
 
 ### 2.4 20250914_citation_manager.csv
@@ -124,13 +104,7 @@ For every file, we will add a mini-section in the following format:
   This dataset captures **the mapping between qualitative evidence and source artifacts**, essential for reproducibility.
 
 - **Usage:**  
-  Ideal for:
-  - reconstructing the provenance of each architectural fragment used in the thematic analysis;  
-  - validating quotations or re-checking context during replication;  
-  - cross-linking GitHub mining results with ATLAS.ti’s coded quotations;  
-  - building supplementary tables that show “which repository produced which evidence”;  
-  - ensuring methodological transparency required for ICSA-level empirical studies.
-
+  
   It is especially important for reviewers and replicators who need to verify  
   **“Where did this fragment come from?”** for any guideline, category, or theme.
 
@@ -153,13 +127,7 @@ For every file, we will add a mini-section in the following format:
   This export consolidates the **semantic meaning** behind the entire coding scheme used in the EdgeAI architectural analysis.
 
 - **Usage:**  
-  Useful for:
-  - ensuring semantic consistency when interpreting codes;  
-  - validating alignment across multiple coders or research sessions;  
-  - supporting transparency in the qualitative methodology;  
-  - enabling replication of the coding process by external researchers;  
-  - constructing tables for the paper’s supplementary material (e.g., guideline families, categories, definitions).  
-
+  
   This file is particularly important for reviewers who want to understand **exactly how codes were defined**, and for researchers who wish to replicate or extend the thematic analysis.
 
 ### 2.6 20250914_code_coocurrrence_count.csv
@@ -178,13 +146,7 @@ For every file, we will add a mini-section in the following format:
 
   Each row explicitly represents one pair, making the dataset ideal for computational analysis.
 
-- **Usage:**  
-  Useful for:
-  - building co-occurrence **network graphs** (nodes = codes, edges = co-occurrence strength);  
-  - calculating similarity metrics such as **Jaccard, cosine similarity, lift, PMI**;  
-  - deriving clusters of architectural concerns (e.g., guideline families);  
-  - generating heatmaps or edge-weighted adjacency matrices;  
-  - validating thematic relationships found during axial coding.  
+- **Usage:**
 
   This form is preferred for **Python/R analyses**, since it is already in a tidy structure and can be easily pivoted or fed into graph libraries (e.g., NetworkX, Gephi, iGraph).
 
@@ -203,13 +165,7 @@ For every file, we will add a mini-section in the following format:
 
   This dataset quantifies **how strongly two codes tend to appear together** relative to their individual frequencies.
 
-- **Usage:**  
-  Useful for:
-  - ranking the strongest conceptual relationships between architectural concerns;  
-  - generating **weighted edge networks** for clustering (e.g., community detection using Louvain/Leiden);  
-  - identifying emerging families or guideline clusters with high internal cohesion;  
-  - validating themes discovered during qualitative synthesis;  
-  - comparing raw co-occurrence counts vs. normalized association strengths.
+- **Usage:**
 
   This export is especially important when investigating **which architectural concepts are genuinely related**, rather than merely co-occurring due to code prevalence.
 
@@ -232,12 +188,6 @@ For every file, we will add a mini-section in the following format:
 
   This version tends to be more compact than the detailed `_count` or `_coef` tables.
 
-- **Usage:**  
-  Useful for:
-  - quick inspection of which codes or categories tend to co-occur;  
-  - generating simplified visualizations (e.g., chord diagrams, small heatmaps, top-N pairs);  
-  - informing guideline grouping or architectural concern clustering;  
-  - sanity-checking the larger co-occurrence datasets to ensure internal consistency;  
-  - supporting descriptive statistical summaries in the replication package.
+- **Usage:**
 
   This file is ideal for **lightweight analysis** or for readers who want a clear overview without processing the full matrices or coefficient tables.
