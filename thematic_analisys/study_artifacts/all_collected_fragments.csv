@@ -1,4 +1,4 @@
-frag_ID,repo_ID,Repo Name,Practices,Quality Requirements,SA Documentation
+frag_ID,repo_ID,repo_name,fragments,quality_requirements (ISO 25010),fragments_source
 F001,37,baetyl/baetyl,"""Check the publishing and receiving messages via MQTTBox.""",Functional Suitability,https://baetyl.readthedocs.io/en/1.0.0/guides/Message-transfer-among-devices-with-hub-service.html#workflow
 F002,37,baetyl/baetyl,"""client2 and client3 will respectively get the message from client1 published to the topic t to Hub Service.""",Reliability,https://baetyl.readthedocs.io/en/1.0.0/guides/Message-transfer-among-devices-with-hub-service.html#message-transfer-test-among-devices
 F003,37,baetyl/baetyl,"""Modify the configuration according to the usage requirements, and then execute sudo systemctl start baetyl.""",Performance Efficiency,https://baetyl.readthedocs.io/en/1.0.0/guides/Message-transfer-among-devices-with-hub-service.html#workflow
