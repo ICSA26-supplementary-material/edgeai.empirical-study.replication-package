@@ -12,8 +12,6 @@ from typing import List, Dict, Optional
 
 from utils import format_datetime
 
-# from config import NUM_COMMITS, PER_PAGE, MAX_RESP, headers, last_year_date
-
 load_dotenv()
 
 
