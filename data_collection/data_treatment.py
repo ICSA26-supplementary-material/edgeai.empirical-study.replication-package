@@ -8,19 +8,12 @@ from langdetect import detect, LangDetectException
 
 from utils import format_datetime, Menu
 
-# -----------------------------------------------------------------------------
-# Logging
-# -----------------------------------------------------------------------------
 logger = logging.getLogger(__name__)
 
-# -----------------------------------------------------------------------------
-# Globals (kept as-is to preserve behavior and paths)
-# -----------------------------------------------------------------------------
 ROOT = os.getcwd()
 
 list_file = Menu.list_files_2_menu
 recursive_list = Menu.recursive_folder_navigation
-# concat = HandleCsvFiles.concat_csv_files
 
 
 def concat_csv_files(folder_path: str) -> None:

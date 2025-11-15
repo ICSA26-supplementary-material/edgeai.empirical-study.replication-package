@@ -98,7 +98,7 @@ Each operation automatically generates timestamped CSV outputs under: (`dataset/
     │   ├── [NO-DUPLICATED]_repo-files_(timestamp).csv
     │   ├── [ENGLISH-DESC]_repo-files_(timestamp).csv
     │   └── [EXCLUSION-TERM]_edgeai_(timestamp).csv
-    └── raw_data-[experiment_used]/ (the data used in the experiment)
+    └── _raw_data-[experiment_used]/ (the data used in the experiment)
         ├── RAW_*_repos_(2025-01-19).csv
         └── ...
 ```
