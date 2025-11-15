@@ -62,25 +62,23 @@ This file is a cornerstone for reproducibility, ensuring reviewers can confirm t
 
 
 
-- **How to Use This File**
+- **How to Use This File** (_This dataset is essential for_):
 
-This dataset is essential for:
+  * Verifying the repository selection methodology
+  * Reproducing the eligibility filtering pipeline
+  * Analyzing dataset characteristics (domains, activity level, relevance)
+  * Supporting fairness and transparency in the study’s sampling strategy
+  * Linking included projects to downstream files (fragments, codes, themes, guidelines)
 
-* Verifying the repository selection methodology
-* Reproducing the eligibility filtering pipeline
-* Analyzing dataset characteristics (domains, activity level, relevance)
-* Supporting fairness and transparency in the study’s sampling strategy
-* Linking included projects to downstream files (fragments, codes, themes, guidelines)
-
-It forms the baseline sample from which all further analyses were constructed.
+    It forms the baseline sample from which all further analyses were constructed.
 
 ---
 ### 1.2 [software_architecture_documented_projects.csv](./software_architecture_documented_projects.csv)
 
 - **Purpose**
 
-This file lists all repositories in the dataset that *contain explicit or implicit software architecture documentation*.
-It represents the filtered subset of EdgeAI projects considered suitable for architectural analysis (RQ1.1–RQ1.5), based on criteria such as:
+    This file lists all repositories in the dataset that *contain explicit or implicit software architecture documentation*.
+    It represents the filtered subset of EdgeAI projects considered suitable for architectural analysis (RQ1.1–RQ1.5), based on criteria such as:
 
 * Presence of architecture-relevant artifacts
 * Existence of diagrams, design documents, ADRs, or conceptual explanations
@@ -130,15 +128,13 @@ This file stores the *final list* of such repositories.
 
 
 
-- **How to Use This File**
+- **How to Use This File** (_This dataset is essential for_):
 
-This dataset is essential for:
-
-* Determining which projects contribute evidence to architectural RQs
-* Reproducing the filtering and inclusion decisions
-* Cross-matching domains, quality attributes, and architectural patterns
-* Supporting descriptive statistics on the prevalence of architectural documentation in EdgeAI OSS
-* Linking repositories to extracted fragments (`all_collected_fragments.csv` & `fragments_used.csv`)
+  * Determining which projects contribute evidence to architectural RQs
+  * Reproducing the filtering and inclusion decisions
+  * Cross-matching domains, quality attributes, and architectural patterns
+  * Supporting descriptive statistics on the prevalence of architectural documentation in EdgeAI OSS
+  * Linking repositories to extracted fragments (`all_collected_fragments.csv` & `fragments_used.csv`)
 
 It serves as the *reference list of architectural evidence sources* for the entire thematic analysis pipeline.
 
@@ -366,16 +362,14 @@ It is the relational backbone connecting raw data → codes → themes.
     | **codes**              | The code and its respective theme, extracted from ATLAS.ti. |
     | **#_codes**            | Number of codes associated with each fragment.              |
 
-- **How to Use This File**
+- **How to Use This File** (_This mapping enables researchers to_):
 
-This mapping enables researchers to:
-
-* Reconstruct the coding process with precision
-* Audit the allocation of codes across fragments
-* Perform co-occurrence or cluster analyses
-* Validate consistency across coders
-* Build network graphs of conceptual relationships
-* Trace every theme back to its empirical origins
+  * Reconstruct the coding process with precision
+  * Audit the allocation of codes across fragments
+  * Perform co-occurrence or cluster analyses
+  * Validate consistency across coders
+  * Build network graphs of conceptual relationships
+  * Trace every theme back to its empirical origins
 
 This file ensures that every guideline in the study ultimately connects to explicit, documented evidence.
 
