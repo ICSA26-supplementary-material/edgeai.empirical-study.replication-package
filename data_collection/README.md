@@ -69,36 +69,34 @@ This script performs the following main operations:
 
 1. Execute the treatment script:
 
-```bash
-  poetry run python data_treatment.py
-```
-   
 
-```
-    === Main Menu ===
-    Select the processing type:
-    [1] - Concatenate
-    [2] - Remove Duplicates
-    [3] - Filter by Language Descriptions
-    [4] - Filter by Exclusion Terms
-    =================
-    Enter your choice:
-```
-
-Each operation automatically generates timestamped CSV outputs under: (`dataset/processed_data/`)
+>  ```bash
+>    poetry run python data_treatment.py
+>  ```
+> 
+> === Main Menu === \
+> Select the processing type: \
+> [1] - Concatenate \
+> [2] - Remove Duplicates \
+> [3] - Filter by Language Descriptions \
+> [4] - Filter by Exclusion Terms \
+> ================= \
+> Enter your choice:
 
 
-```text
-    dataset/
-    ├── raw_data/
-    │   ├── RAW_*_repos_(timestamp).csv
-    │   └── ...
-    ├── processed_data/
-    │   ├── [CONCATENATED]-raw_data-(timestamp).csv
-    │   ├── [NO-DUPLICATED]_repo-files_(timestamp).csv
-    │   ├── [ENGLISH-DESC]_repo-files_(timestamp).csv
-    │   └── [EXCLUSION-TERM]_edgeai_(timestamp).csv
-    └── _raw_data-[experiment_used]/ (the data used in the experiment)
-        ├── RAW_*_repos_(2025-01-19).csv
-        └── ...
-```
+> Each operation automatically generates timestamped CSV outputs under:
+>
+> ```text
+>    dataset/
+>    ├── raw_data/
+>    │   ├── RAW_*_repos_(timestamp).csv
+>    │   └── ...
+>    ├── processed_data/
+>    │   ├── [CONCATENATED]-raw_data-(timestamp).csv
+>    │   ├── [NO-DUPLICATED]_repo-files_(timestamp).csv
+>    │   ├── [ENGLISH-DESC]_repo-files_(timestamp).csv
+>    │   └── [EXCLUSION-TERM]_edgeai_(timestamp).csv
+>    └── _raw_data-[experiment_used]/ (the data used in the experiment)
+>        ├── RAW_*_repos_(2025-01-19).csv
+>        └── ...
+> ```
