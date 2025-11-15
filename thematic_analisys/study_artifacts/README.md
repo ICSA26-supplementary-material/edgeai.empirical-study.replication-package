@@ -286,41 +286,42 @@ This dataset is essential for transparency and enables external researchers to r
 
 - **Purpose**
 
-This file contains the *higher-level themes* produced after grouping and synthesizing the open codes (`codes.csv`).
-Themes represent the **architectural guidelines**, concerns, or recurring patterns discovered across EdgeAI repositories, and they serve as the conceptual backbone of the study’s findings.
+    This file contains the *higher-level themes* produced after grouping and synthesizing the open codes (`codes.csv`).
+    Themes represent the **architectural guidelines**, concerns, or recurring patterns discovered across EdgeAI 
+    repositories, and they serve as the conceptual backbone of the study’s findings.
 
-`themes.csv` therefore captures the final abstraction step before producing guideline families and architectural recommendations.
+    `themes.csv` therefore captures the final abstraction step before producing guideline families and architectural 
+    recommendations.
 
 - **Description**
 
-During the thematic analysis, codes were grouped into meaningful clusters based on conceptual similarity, co-occurrence patterns, and relevance to EdgeAI architectural practices.
-Each cluster was then synthesized into a *theme*, which captures:
+    During the thematic analysis, codes were grouped into meaningful clusters based on conceptual similarity, 
+    co-occurrence patterns, and relevance to EdgeAI architectural practices. Each cluster was then synthesized into a 
+    *theme*, which captures:
 
-* A broader architectural insight
-* The underlying design concern addressed by several codes
-* The shared intent behind different implementations across repositories
-* A generalizable pattern or principle
+  * A broader architectural insight
+  * The underlying design concern addressed by several codes
+  * The shared intent behind different implementations across repositories
+  * A generalizable pattern or principle
 
 This file contains the finalized set of themes that emerged from this synthesis.
 
 - **Column Definitions**
+    
+    | Column Name                     | Description                                                                    |
+    |---------------------------------|--------------------------------------------------------------------------------|
+    | **theme_ID**                    | Unique identifier for each theme.                                              |
+    | **theme (m2m/edge_literature)** | Concise name for theme based on M2M - _Machine-to-Machine_ and IoT literature. |
+    | **high-order_themes**           | Higher-order themes that underpin the sets of guidelines.                      |
+    | **capabilities (ISO 30141)**    | Mapping to capabilities based on the ISO/IEC 30141:2024.                       |
 
-| Column Name                     | Description                                                                    |
-|---------------------------------|--------------------------------------------------------------------------------|
-| **theme_ID**                    | Unique identifier for each theme.                                              |
-| **theme (m2m/edge_literature)** | Concise name for theme based on M2M - _Machine-to-Machine_ and IoT literature. |
-| **high-order_themes**           | Higher-order themes that underpin the sets of guidelines.                      |
-| **capabilities (ISO 30141)**    | Mapping to capabilities based on the ISO/IEC 30141:2024.                       |
+- **How to Use This File** (_Researchers can use this dataset to_):
 
-- **How to Use This File**
-
-Researchers can use this dataset to:
-
-* Understand how codes were abstracted into higher-level architectural concepts
-* Validate the thematic synthesis process
-* Trace each guideline back to the raw evidence (fragments)
-* Compare themes across repositories, domains, or quality attributes
-* Support guideline creation, survey design, and cross-analysis
+  * Understand how codes were abstracted into higher-level architectural concepts
+  * Validate the thematic synthesis process
+  * Trace each guideline back to the raw evidence (fragments)
+  * Compare themes across repositories, domains, or quality attributes
+  * Support guideline creation, survey design, and cross-analysis
 
 This file is critical for ensuring transparency and reproducibility in the final guideline derivation.
 
@@ -330,8 +331,8 @@ This file is critical for ensuring transparency and reproducibility in the final
 
 - **Purpose**
 
-This file provides the *explicit mapping* between architectural fragments (`fragments_used.csv`) and the codes generated during open coding (`codes.csv`).
-Because thematic analysis involves a many-to-many relationship — where:
+    This file provides the *explicit mapping* between architectural fragments (`fragments_used.csv`) and the codes 
+    generated during open coding (`codes.csv`). Because thematic analysis involves a many-to-many relationship — where:
 
 * One fragment may receive multiple codes, and
 * One code may apply to multiple fragments
@@ -354,16 +355,16 @@ This fine-grained representation makes it possible to:
 It is the relational backbone connecting raw data → codes → themes.
 
 - **Column Definitions**
-
-| Column Name            | Description                                                 |
-|------------------------|-------------------------------------------------------------|
-| **fragment_id**        | Sequential identifier for each fragment.                    |
-| **repo_id**            | Unique identifier for the repository.                       |
-| **repo_name**          | Name of the GitHub repository.                              |
-| **quality_attributes** | Mapping to quality attributes based on the ISO/IEC 25010.   |
-| **fragments**          | The raw text excerpt collected from the repository.         |
-| **codes**              | The code and its respective theme, extracted from ATLAS.ti. |
-| **#_codes**            | Number of codes associated with each fragment.              |
+    
+    | Column Name            | Description                                                 |
+    |------------------------|-------------------------------------------------------------|
+    | **fragment_id**        | Sequential identifier for each fragment.                    |
+    | **repo_id**            | Unique identifier for the repository.                       |
+    | **repo_name**          | Name of the GitHub repository.                              |
+    | **quality_attributes** | Mapping to quality attributes based on the ISO/IEC 25010.   |
+    | **fragments**          | The raw text excerpt collected from the repository.         |
+    | **codes**              | The code and its respective theme, extracted from ATLAS.ti. |
+    | **#_codes**            | Number of codes associated with each fragment.              |
 
 - **How to Use This File**
 
@@ -377,7 +378,6 @@ This mapping enables researchers to:
 * Trace every theme back to its empirical origins
 
 This file ensures that every guideline in the study ultimately connects to explicit, documented evidence.
-
 
 ---
 
