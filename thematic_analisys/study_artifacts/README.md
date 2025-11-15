@@ -12,31 +12,33 @@ Below you will find an overview of each file and a detailed description of its s
 
 ### 1.1 [projects_included_by_criteria.csv](./projects_included_by_criteria.csv)
 
-- **Purpose**
-
-This file contains the complete list of repositories that **passed the inclusion criteria** defined for the study's dataset.
-It represents *all projects selected after applying systematic screening rules*, prior to deeper architectural analysis.
-
-Unlike `software_architecture_documented_projects.csv`, which focuses only on repositories with architecture-related documentation, this file captures **all repositories** that were deemed relevant and eligible according to the methodological filters.
-
-It is the formal output of the *repository selection and eligibility phase*.
-
 - **Description**
 
-During the mining phase, the initial set of collected repositories was filtered using explicit inclusion and exclusion rules, influenced by related studies (e.g., Malavolta et al., “Mining Guidelines for Architecting Robotics Software”) and adapted to EdgeAI contexts.
+    During the mining phase, the initial set of collected repositories was filtered using explicit inclusion and 
+    exclusion rules, influenced by related studies and adapted to Edge AI contexts. It forms the baseline sample from
+    which all further analyses were constructed.
 
-Typical criteria included:
+  
+- **Purpose**
 
-* Relevance to EdgeAI or edge–cloud AI workflows
-* Presence of runnable code (not just templates or quizzes)
-* Exclusion of demos, student projects, sample-only repositories
-* Exclusion of repos containing only datasets, models, or simulators
-* Minimum activity or maturity level
-* English-language documentation
+    This file contains the complete list of repositories that **passed the inclusion criteria** defined for the study's 
+    dataset. It represents *all projects selected after applying systematic screening rules*, prior to deeper 
+    architectural analysis. Indeed is the formal output of the *repository selection and eligibility phase*.
 
-`projects_included_by_criteria.csv` stores the repositories that satisfied *all inclusion criteria* and overcame all exclusion checks.
+    Unlike `software_architecture_documented_projects.csv`, which focuses only on repositories with architecture-related 
+    documentation, this file captures **all repositories** that were deemed relevant and eligible according to the 
+    methodological filters.
 
-This file is a cornerstone for reproducibility, ensuring reviewers can confirm the project selection logic.
+
+> Typical criteria included:
+> 
+> * Relevance to EdgeAI or edge–cloud AI workflows
+> * Presence of runnable code (not just templates or quizzes)
+> * Exclusion of demos, student projects, sample-only repositories
+> * Exclusion of repos containing only datasets, models, or simulators
+> * Minimum activity or maturity level
+> * English-language documentation
+
 
 - **Column Definitions**
     
@@ -70,36 +72,35 @@ This file is a cornerstone for reproducibility, ensuring reviewers can confirm t
   * Supporting fairness and transparency in the study’s sampling strategy
   * Linking included projects to downstream files (fragments, codes, themes, guidelines)
 
-    It forms the baseline sample from which all further analyses were constructed.
-
+    
 ---
 ### 1.2 [software_architecture_documented_projects.csv](./software_architecture_documented_projects.csv)
 
-- **Purpose**
-
-    This file lists all repositories in the dataset that *contain explicit or implicit software architecture documentation*.
-    It represents the filtered subset of EdgeAI projects considered suitable for architectural analysis (RQ1.1–RQ1.5), based on criteria such as:
-
-* Presence of architecture-relevant artifacts
-* Existence of diagrams, design documents, ADRs, or conceptual explanations
-* Evidence of architectural decisions, patterns, or structural descriptions
-
-This file defines the **core dataset** for all architectural examinations performed in the study.
 
 - **Description**
 
-During the initial mining and filtering phases, repositories were screened to determine whether they included documentation relevant to software architecture.
-Projects were included based on criteria derived from:
+    During the initial mining and filtering phases, repositories were screened to determine whether they included 
+    documentation relevant to software architecture. Projects were included based on criteria derived from:
 
-* Content analysis of Markdown files
-* Search in documentation folders
-* Examination of linked external resources
-* Detection of architectural patterns and structural descriptions
-* Presence of workflow, deployment, or capability explanations
+    * Presence of architecture-relevant artifacts
+    * Existence of diagrams, design documents, ADRs, or conceptual explanations
+    * Evidence of architectural decisions, patterns, or structural descriptions
 
-Only repositories meeting these criteria were further analyzed for architectural characteristics, quality attributes, domains, and guideline extraction.
 
-This file stores the *final list* of such repositories.
+- **Purpose**
+
+    This file lists all repositories in the dataset that *contain explicit or implicit software architecture 
+    documentation*. It represents the filtered subset of Edge AI projects considered suitable for architectural 
+    analysis.
+
+    * Content analysis of Markdown files
+    * Search in documentation folders
+    * Examination of linked external resources
+    * Detection of architectural patterns and structural descriptions   
+    * Presence of workflow, deployment, or capability explanations
+    
+
+> This file defines the **core dataset** for all architectural examinations performed in the study.
 
 - **Column Definitions**
     
@@ -121,7 +122,7 @@ This file stores the *final list* of such repositories.
     | **iso_mapping_capabilities**   | Mapping capabilities based on ISO/IEC 30141:2024       |
     | **layer_capabilities**         | Layer where functionalities are assigned.              |
     | **layer**                      | Layer where systems operate.                           |
-    | **search_term**                | search term that included the repository.              |
+    | **search_term**                | Search term that included the repository.              |
     | **desc.**                      | Description of the repository.                         |
     | **commits_2024**               | Total of commits in 2024.                              |
     | **#_commits**                  | Total commits on repository.                           |
