@@ -64,7 +64,7 @@ Below you will find an overview of each file and a detailed description of its s
 
 
 
-- **How to Use This File** (_This dataset is essential for_):
+- **How to Use This File**:
 
   * Verifying the repository selection methodology
   * Reproducing the eligibility filtering pipeline
@@ -129,7 +129,7 @@ Below you will find an overview of each file and a detailed description of its s
 
 
 
-- **How to Use This File** (_This dataset is essential for_):
+- **How to Use This File**:
 
   * Determining which projects contribute evidence to architectural RQs
   * Reproducing the filtering and inclusion decisions
@@ -176,7 +176,7 @@ It serves as the *reference list of architectural evidence sources* for the enti
     | **fragments_source**     | Path of the file where the fragment was found .     |
 
 
-- **How to Use This File** (_researchers may use this dataset to_):
+- **How to Use This File**:
 
   * Reproduce the thematic analysis
   * Derive new codes or categories
@@ -219,7 +219,7 @@ It serves as the *reference list of architectural evidence sources* for the enti
     | **quality_attributes**   | Mapping to quality attributes based on the ISO/IEC 25010. |
     | **fragments_source**     | Path of the file where the fragment was found .           |
 
-- **How to Use This File** (_this dataset supports_):
+- **How to Use This File**:
 
   * Reproducibility of the fragment selection process
   * Verification of inclusion/exclusion decisions
@@ -265,7 +265,7 @@ It serves as the *reference list of architectural evidence sources* for the enti
     | **theme_ID**          | Unique identifier for each theme.                                              |
     | **high-order_themes** | Higher-order themes that underpin the sets of guidelines.                      |
 
-- **How to Use This File** (_`codes.csv` allows researchers to_):
+- **How to Use This File**:
 
   * Reconstruct the coding process
   * Validate consistency across coders
@@ -312,7 +312,7 @@ This file contains the finalized set of themes that emerged from this synthesis.
     | **high-order_themes**           | Higher-order themes that underpin the sets of guidelines.                      |
     | **capabilities (ISO 30141)**    | Mapping to capabilities based on the ISO/IEC 30141:2024.                       |
 
-- **How to Use This File** (_Researchers can use this dataset to_):
+- **How to Use This File**:
 
   * Understand how codes were abstracted into higher-level architectural concepts
   * Validate the thematic synthesis process
@@ -363,7 +363,7 @@ It is the relational backbone connecting raw data → codes → themes.
     | **codes**              | The code and its respective theme, extracted from ATLAS.ti. |
     | **#_codes**            | Number of codes associated with each fragment.              |
 
-- **How to Use This File** (_This mapping enables researchers to_):
+- **How to Use This File**:
 
   * Reconstruct the coding process with precision
   * Audit the allocation of codes across fragments
