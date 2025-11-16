@@ -35,8 +35,6 @@ def concat_csv_files(folder_path: str) -> None:
             try:
                 # Reads the CSV file and adds the 'Keyword' column
                 df = pd.read_csv(file_path)
-                # keyword = file_name.split('_')[1]  # Extract the keyword before the first '_'
-                # df['Keyword'] = keyword
                 lista_dfs.append(df)
             except Exception as e:
                 print(f"Error reading file {file_name}: {e}")
@@ -44,9 +42,10 @@ def concat_csv_files(folder_path: str) -> None:
     if lista_dfs:
         folder_name = folder_path.split('/')[-1]
         df_concat = pd.concat(lista_dfs, ignore_index=True)
-        output_file = f"dataset/processed_data/[CONCATENATED]-{folder_name}-{format_datetime()}.csv"
+        output_folder = f"dataset/processed_data"
+        os.makedirs(output_folder, exist_ok=True)
+        output_file = os.path.join(output_folder, f"[CONCATENATED]-{folder_name}-{format_datetime()}.csv")
 
-        # output_file = os.path.join(f"{ROOT}/dataset/data_analysis_2/{folder_name}-concatenated_output_{format_datetime()}.tables")
         df_concat.to_csv(output_file, index=False)
         print(f"Concatenated file & saved in: {output_file}")
     else:
@@ -85,7 +84,6 @@ def handle_remove_duplicates():
     """Handle removing duplicates from a file."""
     path = recursive_list(ROOT, "Folder")
     file_name = list_file(path, "File")
-
     file_out_name = f"[NO-DUPLICATED]_repo-files_{format_datetime()}.csv"
     input_file = os.path.join(ROOT, "dataset/processed_data", file_name)
     output_file = os.path.join(ROOT, "dataset/processed_data", file_out_name)

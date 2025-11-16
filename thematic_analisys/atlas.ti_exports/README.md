@@ -1,4 +1,4 @@
-# ATLAS.ti Exports – Documentation
+# ATLAS.ti Exports
 
 This folder contains all **ATLAS.ti exports** used in our EdgeAI architecture study.  
 The goal of this README is to help readers understand **what each export file contains**,  
@@ -34,6 +34,32 @@ For every file, we will add a mini-section in the following format:
 
 ### 2.1 20250914_theme_frequencies.csv
 
+This file contains the **frequency distribution of the 18 top-level themes** (T1–T18) that form the EdgeAI guideline taxonomy.
+It is generated from the ATLAS.ti Code Manager by exporting **only the top-level codes**, each of which represents a major architectural concern in EdgeAI systems.
+
+Each row corresponds to one thematic family (e.g., T1, T2, …, T18) and reports the number of quotations coded with that theme.
+
+### **Columns**
+
+| Column                          | Description                                                               |
+| ------------------------------- | ------------------------------------------------------------------------- |
+| **Code**                        | The theme name (e.g., “T1. Edge Connectivity & Communication Protocols”). |
+| **Magnitude Degree**            | Total number of quotations associated with that theme.                    |
+| **Density**                     | Number of relationships with other codes (0 for themes, unless linked).   |
+| **Groups**                      | Code group classification (“Themes”).                                     |
+| **Number of Groups**            | Count of groups the theme belongs to.                                     |
+| **Comment**                     | Any memo associated with the theme (empty here).                          |
+| **Creation/Modification Dates** | Metadata recorded during coding.                                          |
+
+### **Purpose**
+
+This file summarizes the **overall thematic landscape** of the analyzed repositories, showing which architectural concerns are more or less represented in real-world EdgeAI projects.
+It supports:
+
+* quantitative analysis of guideline relevance,
+* cross-theme comparisons,
+* and the generation of figures showing frequency distributions across themes.
+
 - **Purpose:**  
   This export summarizes the **frequency of all themes** identified during the ATLAS.ti coding process. It provides a quantitative view of how often each high-level theme appeared across the coded fragments.
 
@@ -49,7 +75,37 @@ For every file, we will add a mini-section in the following format:
   Researchers replicating this study can recompute this table by regrouping codes → categories → themes following the same hierarchical structure documented in the coding scheme.
 
 
-### 2.2 20250914_code_frequencies.csv
+### 2.2 20250914_code_list_frequencies.csv
+
+
+This file is an export of the **Code Manager** in ATLAS.ti and contains the full hierarchical structure of the coding scheme used in the study.
+It lists each **code family**, its **sub-codes**, and their quantitative metadata.
+
+The file includes:
+
+* the **hierarchical organization** of the guideline themes (e.g., T1, T2, ...),
+* all **individual codes** within each theme,
+* the **magnitude degree** (i.e., the number of quotations coded with each code),
+* code **densities** (number of relationships with other codes),
+* membership in **code groups** (e.g., “Themes”, “ATLAS”),
+* the number of groups per code, and
+* creation/modification timestamps.
+
+### **Columns**
+
+| Column                | Description                                                         |
+| --------------------- | ------------------------------------------------------------------- |
+| **Code**              | The family or individual code (hierarchical indentation preserved). |
+| **Magnitude Degree**  | Number of quotations coded with this code (frequency).              |
+| **Density**           | Number of relationships this code has with other codes.             |
+| **Groups**            | The groups/categories this code belongs to (e.g., “Themes”).        |
+| **Number of Groups**  | Count of groups associated with the code.                           |
+| **Comment**           | Any memo associated with the code.                                  |
+| **Creation Date**     | When the code was created.                                          |
+| **Modification Date** | When the code was last updated.                                     |
+
+This file represents the **complete coding taxonomy** used during the thematic analysis, linking each guideline theme to its constituent codes and providing the frequencies used to support the quantitative analysis of EdgeAI architectural guidelines.
+
 
 - **Purpose:**  
   This file provides the **frequency of each individual code** used during the ATLAS.ti open coding phase.  
@@ -67,6 +123,38 @@ For every file, we will add a mini-section in the following format:
   This export is essential for replicating the **open coding stage** and for reconstructing the prevalence of each architectural construct identified in the study.
 
 ### 2.3 20250914_code_coocurrrence.xlsx
+
+This file contains the **complete code co-occurrence analysis** exported from ATLAS.ti.
+It provides a detailed view of how often pairs of codes appeared together in the same quotation, enabling the identification of semantic relationships and supporting the construction of higher-level categories and themes.
+
+The workbook contains **three sheets**:
+
+### **1. Code Co-occurrence Table (Visual Heatmap)**
+
+A matrix visualization where:
+
+* rows and columns represent codes,
+* cell values indicate co-occurrence counts,
+* color intensity (green scale) reflects the strength of the relationship.
+
+### **2. Code Co-occurrence Count**
+
+A numeric matrix with raw co-occurrence frequencies.
+This sheet supports quantitative analyses, chart generation, and replication.
+
+### **3. Code Co-occurrence Coefficient**
+
+A normalized co-occurrence matrix calculated by ATLAS.ti using similarity coefficients (e.g., Jaccard-based metrics).
+Values range from 0 to 1 and represent the relative strength of association between code pairs.
+
+### **Purpose**
+
+This file supports:
+
+* mapping semantic relationships between architectural concerns,
+* validating the theme hierarchy (T1–T18),
+* generating quantitative insights for the thematic analysis, and
+* ensuring methodological transparency and replicability.
 
 - **Purpose:**  
   This export contains the **code co-occurrence matrix** generated by ATLAS.ti.  
@@ -87,7 +175,45 @@ For every file, we will add a mini-section in the following format:
  
   This export is particularly valuable for **data-driven theme formation** and validating the cohesion of guideline families.
 
-### 2.4 20250914_citation_manager.csv
+### 2.4 20250914_quotation_export.csv
+
+
+## **File: `20250914_citation_manager.csv` (Quotation Export)**
+
+This file is the **full export of all quotations (fragments)** that were coded during the thematic analysis.
+Despite the filename, the content corresponds to an **ATLAS.ti Quotation Report**, not to citation metadata.
+
+Each row represents a distinct **fragment extracted from the GitHub repositories** and coded according to the EdgeAI guideline taxonomy.
+The file integrates:
+
+* the **raw text of each fragment**,
+* the **document of origin**,
+* all **codes applied**,
+* the **researcher’s comments**,
+* **positional metadata** (start/end), and
+* timestamps for creation and modification.
+
+### **Columns**
+
+| Column                | Description                                                               |
+| --------------------- | ------------------------------------------------------------------------- |
+| **Number**            | Unique quotation identifier (e.g., 1:1).                                  |
+| **Reference**         | Paragraph marker in the source document.                                  |
+| **Name**              | Optional label (usually empty for raw fragments).                         |
+| **Text Content**      | The full text of the extracted fragment.                                  |
+| **Document**          | Source document name (e.g., “[ATLAS] – Codifying Fragments”).             |
+| **Codes**             | List of all codes applied to the fragment.                                |
+| **Number of Codes**   | Total number of codes associated with the fragment.                       |
+| **Comment**           | Researcher notes or analytic memos.                                       |
+| **Initial Position**  | Start coordinate of the quotation in the source document.                 |
+| **Final Position**    | End coordinate.                                                           |
+| **Extensão**          | Length of the quotation (characters or lines depending on configuration). |
+| **Creation Date**     | When the fragment was created during coding.                              |
+| **Modification Date** | When it was last updated.                                                 |
+
+This file represents the **core dataset** used for generating codes, categories, themes, and ultimately architectural guidelines for EdgeAI systems.
+
+---
 
 - **Purpose:**  
   This export contains all **quotation-level citation references** generated inside ATLAS.ti.  
@@ -110,6 +236,31 @@ For every file, we will add a mini-section in the following format:
 
 ### 2.5 20250914_codebook_full.csv
 
+
+This file contains the **complete codebook** used during the thematic analysis.
+Exported directly from ATLAS.ti, it documents the full hierarchical structure of the coding schema developed for the study.
+
+Each row represents a **code** or **sub-code**, along with its assigned **code groups**, which indicate the thematic families or analytical categories it belongs to.
+
+### **Columns**
+
+| Column                                 | Description                                                                                                    |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **Código / Code**                      | The name of the code, including theme-prefix hierarchy (e.g., “T1.”).                                          |
+| **Comentário / Comment**               | The code definition or explanatory note (if provided).                                                         |
+| **Grupo de Códigos 1–4 / Code Groups** | The groups, families, or thematic categories to which the code belongs (e.g., “Themes”, “ATLAS”, “Research2”). |
+
+### **Purpose**
+
+This codebook defines the complete analytic structure used in the study, including:
+
+* the **18 high-level thematic families** (T1–T18),
+* all **sub-codes** associated with each theme,
+* classification groups indicating the origin and role of each code,
+* and the organization used to interpret the 400 curated textual fragments.
+
+It is an essential document for ensuring **replicability**, **traceability**, and **methodological transparency** in the thematic analysis of EdgeAI architectural guidelines.
+
 - **Purpose:**  
   This file contains the **complete ATLAS.ti codebook** used in the study.  
   It documents every code created during open, axial, and thematic coding, including definitions, descriptions, and hierarchical relationships.  
@@ -129,65 +280,3 @@ For every file, we will add a mini-section in the following format:
 - **Usage:**  
   
   This file is particularly important for reviewers who want to understand **exactly how codes were defined**, and for researchers who wish to replicate or extend the thematic analysis.
-
-### 2.6 20250914_code_coocurrrence_count.csv
-
-- **Purpose:**  
-  This file contains the **raw co-occurrence counts** between pairs of codes as exported from ATLAS.ti.  
-  Unlike the `.xlsx` matrix version, this CSV provides the **long-form (tidy) representation**, listing each co-occurring pair explicitly.  
-  It is essential for statistical analysis, clustering, and generating visualizations that require pairwise relationships.
-
-- **Contents:**  
-  A CSV table typically including:
-  - **code_1** – the first code in the co-occurrence pair.  
-  - **code_2** – the second code.  
-  - **count** – how many quotations include both codes simultaneously.  
-  - (Optionally) **normalized values**, depending on export settings.  
-
-  Each row explicitly represents one pair, making the dataset ideal for computational analysis.
-
-- **Usage:**
-
-  This form is preferred for **Python/R analyses**, since it is already in a tidy structure and can be easily pivoted or fed into graph libraries (e.g., NetworkX, Gephi, iGraph).
-
-### 2.7 20250914_code_coocurrrence_coef.csv
-
-- **Purpose:**  
-  This file captures the **co-occurrence coefficients** between pairs of codes, as calculated or exported by ATLAS.ti.  
-  These coefficients express **the strength of association** between two codes beyond raw frequency counts, enabling more robust interpretations of conceptual relationships.
-
-- **Contents:**  
-  A CSV file in long-form format, typically including:
-  - **code_1** – first code in the pair.  
-  - **code_2** – second code in the pair.  
-  - **coefficient** – the co-occurrence coefficient between the pair (e.g., C-coefficient, Jaccard-based metric, or ATLAS.ti’s internal metric).  
-  - In some exports, additional fields may appear (e.g., **count**, **normalized score**, **expected co-occurrence**).
-
-  This dataset quantifies **how strongly two codes tend to appear together** relative to their individual frequencies.
-
-- **Usage:**
-
-  This export is especially important when investigating **which architectural concepts are genuinely related**, rather than merely co-occurring due to code prevalence.
-
-### 2.8 20250914_co-ocurrence.csv
-
-- **Purpose:**  
-  This file provides a **summary-level co-occurrence export** generated by ATLAS.ti.  
-  It usually consolidates co-occurrence information across codes, themes, or categories—depending on the export settings.  
-  It serves as a compact, high-level reference complementing the more detailed co-occurrence matrices and coefficient tables.
-
-- **Contents:**  
-  A CSV containing one of the following structures (depending on how ATLAS.ti created the export):
-  - **(Common case)** A list of code pairs and their co-occurrence counts.  
-  - **(Alternative)** A code–theme or theme–theme co-occurrence summary.  
-  Typical columns include:
-    - **unit_1** – first element in the co-occurrence pair (code or category).  
-    - **unit_2** – second element in the pair.  
-    - **count** – number of shared quotations.  
-    - Optional: **density**, **strength**, or **proximity** metrics.  
-
-  This version tends to be more compact than the detailed `_count` or `_coef` tables.
-
-- **Usage:**
-
-  This file is ideal for **lightweight analysis** or for readers who want a clear overview without processing the full matrices or coefficient tables.

@@ -1,4 +1,4 @@
-# Study Artifacts - Documentation
+# Study Artifacts
 
 This directory contains all artifacts produced during the thematic analysis phase of the EdgeAI empirical study. Each 
 file stores a specific intermediate output of the analysis pipeline, supporting traceability, transparency, and 
