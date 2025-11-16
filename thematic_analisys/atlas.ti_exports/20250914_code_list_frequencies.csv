@@ -50,7 +50,7 @@ Code;;Magnitude Degree;Density;Groups;Number of Groups;Comment;Creation Date;Dat
 ;● Compliance Requirements;1;0;ATLAS;1;;4/6/25;5/12/25
 ;● Crypto-based ID;2;0;ATLAS;1;;4/2/25;5/12/25
 ;● Custom Linux Security Module;1;0;ATLAS;1;;4/5/25;5/12/25
-;● Device Access Control;11;0;Jander;1;;4/1/25;5/12/25
+;● Device Access Control;11;0;Research_1;1;;4/1/25;5/12/25
 ;● Device Authenticity;1;0;ATLAS;1;;4/5/25;5/12/25
 ;● Disclosure Timeline;1;0;ATLAS;1;;4/6/25;5/12/25
 ;● DMZ Configuration;1;0;ATLAS;1;;4/2/25;5/12/25
@@ -102,7 +102,7 @@ Code;;Magnitude Degree;Density;Groups;Number of Groups;Comment;Creation Date;Dat
 ;● Device Binding;8;0;ATLAS;1;;4/1/25;5/12/25
 ;● Device Creation;2;0;ATLAS;1;;4/3/25;5/12/25
 ;● Device Discovery;1;0;ATLAS;1;;4/5/25;5/12/25
-;● Device Management;6;0;Jander;1;;4/5/25;5/12/25
+;● Device Management;6;0;Research_1;1;;4/5/25;5/12/25
 ;● Device Online Status;1;0;ATLAS;1;;4/5/25;5/12/25
 ;● Edge Device Management;6;0;ATLAS;1;;4/4/25;5/12/25
 ;● Edge Discovery;3;0;ATLAS;1;;4/1/25;5/12/25
@@ -154,7 +154,7 @@ Code;;Magnitude Degree;Density;Groups;Number of Groups;Comment;Creation Date;Dat
 ;● Modular Application Development;1;0;ATLAS;1;;4/5/25;5/12/25
 ;● Modular Architecture;11;0;ATLAS;1;;4/2/25;5/12/25
 ;● Module Integration;1;0;ATLAS;1;;4/6/25;5/12/25
-;● Multi-Layer Architecture;1;0;Jander;1;;4/5/25;5/12/25
+;● Multi-Layer Architecture;1;0;Research_1;1;;4/5/25;5/12/25
 ;● Multi-Tenant Architecture;3;0;ATLAS;1;;4/5/25;5/12/25
 ;● Multiple Architectures;2;0;ATLAS;1;;4/5/25;5/12/25
 ;● Node Execution;2;0;ATLAS;1;;4/5/25;5/12/25
@@ -164,7 +164,7 @@ Code;;Magnitude Degree;Density;Groups;Number of Groups;Comment;Creation Date;Dat
 ;● Plug-ins;1;0;ATLAS;1;;4/6/25;5/12/25
 ;● Process Communication;2;0;ATLAS;1;;4/5/25;5/12/25
 ;● Process Role Categorization;1;0;ATLAS;1;;4/5/25;5/12/25
-;● Self-Adaptive Architecrutes;2;0;Jander;1;;4/2/25;5/12/25
+;● Self-Adaptive Architecrutes;2;0;Research_1;1;;4/2/25;5/12/25
 ;● Standard-Based;1;0;ATLAS;1;;4/6/25;5/12/25
 ;● Stateless Architecture;1;0;ATLAS;1;;4/3/25;5/12/25
 ;● Workflow Configuration;2;0;ATLAS;1;;4/4/25;5/12/25
@@ -181,7 +181,7 @@ Code;;Magnitude Degree;Density;Groups;Number of Groups;Comment;Creation Date;Dat
 ;● GraphQL API;1;0;ATLAS;1;;4/5/25;5/12/25
 ;● High-Performance Messaging;4;0;ATLAS;1;;4/5/25;5/12/25
 ;● Illusion of Continuity;1;0;ATLAS;1;;4/6/25;5/12/25
-;● Interoperability of Different Services;9;0;Jander;1;;4/2/25;5/12/25
+;● Interoperability of Different Services;9;0;Research_2;1;;4/2/25;5/12/25
 ;● IoT Service Providers;1;0;ATLAS;1;;4/6/25;5/12/25
 ;● Lightweight Messaging System;3;0;ATLAS;1;;4/5/25;5/12/25
 ;● Management and Routing Tasks;1;0;ATLAS;1;;4/5/25;5/12/25
@@ -252,7 +252,7 @@ Code;;Magnitude Degree;Density;Groups;Number of Groups;Comment;Creation Date;Dat
 ;● AOT Configuration;2;0;ATLAS;1;;4/2/25;5/12/25
 ;● Background Process Invocation;1;0;ATLAS;1;;4/5/25;5/12/25
 ;● Data Preprocessing;2;0;ATLAS;1;;4/2/25;5/12/25
-;● Distributed AI Processing;11;0;Jander;1;;4/1/25;5/12/25
+;● Distributed AI Processing;11;0;Research_1;1;;4/1/25;5/12/25
 ;● Edge Data Processing Applications;25;0;ATLAS;1;;3/31/25;5/12/25
 ;● Edge Runtime;4;0;ATLAS;1;;4/4/25;5/12/25
 ;● Efficient Execution;16;0;ATLAS;1;;4/2/25;5/12/25
@@ -307,7 +307,7 @@ Code;;Magnitude Degree;Density;Groups;Number of Groups;Comment;Creation Date;Dat
 ;● New Measurement Techniques;2;0;ATLAS;1;;4/2/25;5/12/25
 ;● Non-Deterministic Behavior;1;0;ATLAS;1;;4/2/25;5/12/25
 ;● Performance Improvement;44;0;ATLAS;1;;3/31/25;5/12/25
-;● Performance Metrics;1;0;Jander;1;;4/6/25;5/12/25
+;● Performance Metrics;1;0;Research_2;1;;4/6/25;5/12/25
 ;● Performance Variability;8;0;ATLAS;1;;3/31/25;5/12/25
 ;● Portability;3;0;ATLAS;1;;4/2/25;5/12/25
 ;● Quality Assurance;1;0;ATLAS;1;;4/6/25;5/12/25
@@ -322,14 +322,14 @@ Code;;Magnitude Degree;Density;Groups;Number of Groups;Comment;Creation Date;Dat
 ;● Speedy Delivery;2;0;ATLAS;1;;4/4/25;5/12/25
 ;● Standard of Excellence;1;0;ATLAS;1;;4/5/25;5/12/25
 ;● User Satisfaction;1;0;ATLAS;1;;4/5/25;5/12/25
-;● workload;2;0;Jander;1;;4/4/25;5/12/25
+;● workload;2;0;Research_2;1;;4/4/25;5/12/25
 ● T11 – Stream Processing & Event‑Driven Architectures (Edge);;47;0;Themes;1;;4/9/25;5/12/25
 ;● Astarte Triggers;1;0;ATLAS;1;;4/5/25;5/12/25
 ;● Condition Logic;1;0;ATLAS;1;;4/3/25;5/12/25
 ;● Continuous Streaming Data Source;3;0;ATLAS;1;;4/2/25;5/12/25
 ;● Customer Preferences;3;0;ATLAS;1;;4/5/25;5/12/25
 ;● Data Transformation and Alerting Services;11;0;ATLAS;1;;3/31/25;5/12/25
-;● Envio de notificações;0;0;GPT;1;;4/7/25;5/12/25
+;● Envio de notificações;0;0;Research_2;1;;4/7/25;5/12/25
 ;● Event API;1;0;ATLAS;1;;4/5/25;5/12/25
 ;● Event Detection and Notification;7;0;ATLAS;1;;3/31/25;5/12/25
 ;● Event Stream;1;0;ATLAS;1;;4/5/25;5/12/25
@@ -350,7 +350,7 @@ Code;;Magnitude Degree;Density;Groups;Number of Groups;Comment;Creation Date;Dat
 ;● Backup and Restore Functionality;4;0;ATLAS;1;;3/31/25;5/12/25
 ;● Data Integrity;5;0;ATLAS;1;;4/5/25;5/12/25
 ;● Data Persistence;1;0;ATLAS;1;;4/5/25;5/12/25
-;● Data Storage Management;10;0;Jander;1;;4/1/25;5/12/25
+;● Data Storage Management;10;0;Research_1;1;;4/1/25;5/12/25
 ;● Database Configuration;3;0;ATLAS;1;;4/5/25;5/12/25
 ;● Distributed Storage Solution;2;0;ATLAS;1;;4/5/25;5/12/25
 ;● Local Storage;2;0;ATLAS;1;;4/5/25;5/12/25
@@ -409,7 +409,7 @@ Code;;Magnitude Degree;Density;Groups;Number of Groups;Comment;Creation Date;Dat
 ;● Functions List;1;0;ATLAS;1;;4/5/25;5/12/25
 ;● Input and Output;0;0;ATLAS;1;;4/2/25;5/12/25
 ;● Language Supports;1;0;ATLAS;1;;4/6/25;5/12/25
-;● Low Debugging Difficulty;1;0;Jander;1;;4/2/25;5/12/25
+;● Low Debugging Difficulty;1;0;Research_1;1;;4/2/25;5/12/25
 ;● Modification Proposals;1;0;ATLAS;1;;4/2/25;5/12/25
 ;● Open-Source Project;0;0;ATLAS;1;;4/5/25;5/12/25
 ;● Programming Language Support;1;0;ATLAS;1;;4/5/25;5/12/25
