@@ -345,6 +345,7 @@ Below you will find an overview of each file and a detailed description of its s
     | **codes**              | The code and its respective theme, extracted from ATLAS.ti. |
     | **#_codes**            | Number of codes associated with each fragment.              |
 
+
 - **How to Use This File**:
 
   * Perform co-occurrence or cluster analyses
@@ -353,5 +354,4 @@ Below you will find an overview of each file and a detailed description of its s
 
 > This file ensures that every guideline in the study ultimately connects to explicit, documented evidence.
 
----
 
