@@ -214,10 +214,8 @@ Below you will find an overview of each file and a detailed description of its s
 
 - **How to Use This File**:
 
-  * Reproducibility of the fragment selection process
-  * Verification of inclusion/exclusion decisions
-  * Cross-checking with coding files and guideline categories
-  * Independent replication of the thematic analysis
+  * Cross-checking with coding files
+  * Independent replication of this study
   * Maintaining traceability between raw data → curated data → coded data → themes
 
 > It's representing the **starting point of the coding process**, guaranteeing methodological rigor and transparency.
