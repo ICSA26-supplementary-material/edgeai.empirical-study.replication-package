@@ -284,22 +284,21 @@ Below you will find an overview of each file and a detailed description of its s
   
 - **Column Definitions**
     
-    | Column Name                     | Description                                                 |
-    |---------------------------------|-------------------------------------------------------------|
-    | **theme_ID**                    | Unique identifier for each theme.                           |
-    | **theme (m2m/edge_literature)** | Concise name for theme based on M2M[ˆ1] and IoT literature. |
-    | **high-order_themes**           | Higher-order themes that underpin the sets of guidelines.   |
-    | **capabilities (ISO 30141)**    | Mapping to capabilities based on the ISO/IEC 30141:2024.    |
+    | Column Name                     | Description                                                        |
+    |---------------------------------|--------------------------------------------------------------------|
+    | **theme_ID**                    | Unique identifier for each theme                                   |
+    | **theme (m2m/edge_literature)** | Concise name for theme based on M2M<sup>1</sup> and IoT literature |
+    | **high-order_themes**           | Higher-order themes that underpin the sets of guidelines           |
+    | **capabilities (ISO 30141)**    | Mapping to capabilities based on the ISO/IEC 30141:2024            |
 
+<sup>1</sup> Machine-to-Machine
 
-[ˆ1]: _Machine-to-Machine_
 
 - **How to Use This File**:
 
   * Understand how codes were abstracted into higher-level architectural concepts
   * Validate the thematic synthesis process
   * Trace each guideline back to the raw evidence (fragments)
-  * Compare themes across repositories, domains, or quality attributes
   * Support guideline creation, survey design, and cross-analysis
 
 
@@ -309,30 +308,30 @@ Below you will find an overview of each file and a detailed description of its s
 
 ### 1.7 [fragments→codes.csv](./fragments→codes.csv)
 
+- **Description**
+    
+    The file lists every instance where a fragment was associated with one or more codes. 
+    Each row corresponds to a **single encoding action**: a fragment linked to at least one assigned code. This detailed
+    representation allows:
+
+    * Track the coding density of fragments
+    * Inspect the overlap and distribution of conceptual patterns
+    * Support quantitative analyses
+
+    ` It is the relational backbone connecting fragments → codes → themes.`
+
+
 - **Purpose**
 
     This file provides the *explicit mapping* between architectural fragments (`fragments_used.csv`) and the codes 
     generated during open coding (`codes.csv`). Because thematic analysis involves a many-to-many relationship — where:
 
-* One fragment may receive multiple codes, and
-* One code may apply to multiple fragments
+    * One fragment may receive multiple codes, and
+    * One code may apply to multiple fragments
 
-— this mapping file ensures full **bidirectional traceability** across all analytical layers.
+    This mapping file ensures full **bidirectional traceability** across all analytical layers. It is essential for 
+    validating the coding process and for enabling independent reproduction of the analysis.
 
-It is essential for validating the coding process and for enabling independent reproduction of the analysis.
-
-- **Description**
-
-The file lists every instance where a fragment was associated with one or more codes.
-Each row corresponds to a **single coding action**: one fragment linked to one assigned code.
-This fine-grained representation makes it possible to:
-
-* Track the coding density of fragments
-* Inspect the overlap and distribution of conceptual patterns
-* Analyze consistency across coders
-* Support quantitative analyses (e.g., code frequency, co-occurrence networks)
-
-It is the relational backbone connecting raw data → codes → themes.
 
 - **Column Definitions**
     
@@ -348,14 +347,11 @@ It is the relational backbone connecting raw data → codes → themes.
 
 - **How to Use This File**:
 
-  * Reconstruct the coding process with precision
-  * Audit the allocation of codes across fragments
   * Perform co-occurrence or cluster analyses
-  * Validate consistency across coders
   * Build network graphs of conceptual relationships
   * Trace every theme back to its empirical origins
 
-This file ensures that every guideline in the study ultimately connects to explicit, documented evidence.
+> This file ensures that every guideline in the study ultimately connects to explicit, documented evidence.
 
 ---
 
