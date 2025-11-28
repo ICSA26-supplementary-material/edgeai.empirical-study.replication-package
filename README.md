@@ -1,3 +1,5 @@
+# Replication Package 
+
 # Introduction
 This repository contains the supplementary material and replication package for our empirical study on architectural 
 practices and guidelines in Edge AI–based systems. It provides the complete research artifacts, including datasets, 
