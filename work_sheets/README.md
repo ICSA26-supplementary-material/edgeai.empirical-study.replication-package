@@ -5,6 +5,10 @@ repository search, filtering, and eligibility assessment performed in this study
 **one stage** of the pipeline, ensuring full transparency and complete reproducibility of the dataset construction 
 process.
 
+*Note: As this is an Excel file, some browsers may not render the preview correctly. For reliable access, downloading 
+the document is recommended.*
+
+
 ## Spreadsheet Structure
 
 The spreadsheet includes five sheets, each representing a specific step of the filtering workflow:
